@@ -7,6 +7,67 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class OptionSchema extends BaseModel {
+  static $columns = ['createdAt', 'deleteInfo', 'id', 'isCorrect', 'orderIndex', 'questionId', 'text'] as const
+  $columns = OptionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare deleteInfo: any | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isCorrect: boolean
+  @column()
+  declare orderIndex: number
+  @column()
+  declare questionId: number
+  @column()
+  declare text: string
+}
+
+export class QuestionSchema extends BaseModel {
+  static $columns = ['createdAt', 'deleteInfo', 'id', 'orderIndex', 'quizId', 'scoreValue', 'text'] as const
+  $columns = QuestionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare deleteInfo: any | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare orderIndex: number
+  @column()
+  declare quizId: number
+  @column()
+  declare scoreValue: number
+  @column()
+  declare text: string
+}
+
+export class QuizSchema extends BaseModel {
+  static $columns = ['category', 'createdAt', 'deleteInfo', 'description', 'difficulty', 'id', 'timePerQuestion', 'title', 'updatedAt'] as const
+  $columns = QuizSchema.$columns
+  @column()
+  declare category: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare deleteInfo: any | null
+  @column()
+  declare description: string | null
+  @column()
+  declare difficulty: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare timePerQuestion: number
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class RefreshTokenSchema extends BaseModel {
   static $columns = ['createdAt', 'expiresAt', 'id', 'isRevoked', 'tokenHash', 'userId'] as const
   $columns = RefreshTokenSchema.$columns
