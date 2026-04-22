@@ -12,14 +12,10 @@ export default class UserController {
   async show({ response, user }: HttpContext) {
     try {
       const profile = await this.userService.getProfile(user!.userId)
-      return response.ok({
-        status: 'success',
-        data: profile,
-      })
+      return response.ok(profile)
     } catch (error) {
       if (error instanceof Error && error.message === 'USER_NOT_FOUND') {
         return response.notFound({
-          status: 'error',
           message: 'User account no longer exists',
           code: 'USER_NOT_FOUND',
         })
@@ -33,15 +29,10 @@ export default class UserController {
 
     try {
       const profile = await this.userService.updateProfile(user!.userId, data.full_name)
-      return response.ok({
-        status: 'success',
-        message: 'Profile updated successfully',
-        data: profile,
-      })
+      return response.ok(profile)
     } catch (error) {
       if (error instanceof Error && error.message === 'USER_NOT_FOUND') {
         return response.notFound({
-          status: 'error',
           message: 'User account no longer exists',
           code: 'USER_NOT_FOUND',
         })

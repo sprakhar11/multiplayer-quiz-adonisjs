@@ -21,7 +21,6 @@ export default class AuthMiddleware {
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return ctx.response.unauthorized({
-        status: 'error',
         message: 'Missing or invalid authorization header',
         code: 'UNAUTHORIZED',
       })
@@ -34,7 +33,6 @@ export default class AuthMiddleware {
 
       if (payload.role === 'guest') {
         return ctx.response.forbidden({
-          status: 'error',
           message: 'Guest users cannot access this resource',
           code: 'GUEST_NOT_ALLOWED',
         })
@@ -44,7 +42,6 @@ export default class AuthMiddleware {
       return next()
     } catch {
       return ctx.response.unauthorized({
-        status: 'error',
         message: 'Invalid or expired token',
         code: 'INVALID_TOKEN',
       })

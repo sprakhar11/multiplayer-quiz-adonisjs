@@ -15,14 +15,12 @@ export default class AuthController {
     try {
       const result = await this.authService.register(data.full_name, data.email, data.password)
       return response.created({
-        status: 'success',
         message: 'User registered successfully',
         data: result,
       })
     } catch (error) {
       if (error instanceof Error && error.message === 'EMAIL_ALREADY_EXISTS') {
         return response.conflict({
-          status: 'error',
           message: 'Email already registered',
           code: 'EMAIL_ALREADY_EXISTS',
         })
@@ -37,14 +35,12 @@ export default class AuthController {
     try {
       const result = await this.authService.login(data.email, data.password)
       return response.ok({
-        status: 'success',
         message: 'Login successful',
         data: result,
       })
     } catch (error) {
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
         return response.unauthorized({
-          status: 'error',
           message: 'Invalid email or password',
           code: 'INVALID_CREDENTIALS',
         })
@@ -59,14 +55,12 @@ export default class AuthController {
     try {
       const tokens = await this.authService.refresh(data.refresh_token)
       return response.ok({
-        status: 'success',
         message: 'Tokens refreshed successfully',
         data: tokens,
       })
     } catch (error) {
       if (error instanceof Error && ['INVALID_REFRESH_TOKEN', 'REFRESH_TOKEN_EXPIRED'].includes(error.message)) {
         return response.unauthorized({
-          status: 'error',
           message: 'Invalid or expired refresh token',
           code: error.message,
         })
@@ -80,7 +74,6 @@ export default class AuthController {
 
     await this.authService.logout(data.refresh_token)
     return response.ok({
-      status: 'success',
       message: 'Logged out successfully',
     })
   }
@@ -88,7 +81,6 @@ export default class AuthController {
   async guest({ response }: HttpContext) {
     const result = this.authService.generateGuestToken()
     return response.ok({
-      status: 'success',
       message: 'Guest token generated',
       data: result,
     })
