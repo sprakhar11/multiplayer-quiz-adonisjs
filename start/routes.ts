@@ -6,8 +6,10 @@
 
 import router from '@adonisjs/core/services/router'
 import db from '@adonisjs/lucid/services/db'
+import { middleware } from '#start/kernel'
 
 const AuthController = () => import('#controllers/auth/auth_controller')
+const UserController = () => import('#controllers/user/user_controller')
 
 // Health check
 router.get('/', () => {
@@ -41,3 +43,12 @@ router
     router.post('guest', [AuthController, 'guest'])
   })
   .prefix('/api/auth')
+
+// User routes (authenticated)
+router
+  .group(() => {
+    router.get('profile', [UserController, 'show'])
+    router.put('profile', [UserController, 'update'])
+  })
+  .prefix('/api/users')
+  .use(middleware.auth())

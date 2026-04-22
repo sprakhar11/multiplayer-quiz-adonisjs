@@ -9,10 +9,14 @@ export type ScannedRoutes = {
     'auth.refresh': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.guest': { paramsTuple?: []; params?: {} }
+    'user.show': { paramsTuple?: []; params?: {} }
+    'user.update': { paramsTuple?: []; params?: {} }
   }
   GET: {
+    'user.show': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
+    'user.show': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }
@@ -20,6 +24,9 @@ export type ScannedRoutes = {
     'auth.refresh': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.guest': { paramsTuple?: []; params?: {} }
+  }
+  PUT: {
+    'user.update': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

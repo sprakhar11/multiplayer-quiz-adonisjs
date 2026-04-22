@@ -73,4 +73,15 @@ export default class UserDao {
       [userId]
     )
   }
+
+  async updateName(id: number, fullName: string): Promise<UserPublic | null> {
+    const result = await db.rawQuery(
+      `UPDATE users SET full_name = ?, updated_at = NOW()
+       WHERE id = ?
+       RETURNING id, full_name, email, role, created_at`,
+      [fullName, id]
+    )
+    const mapped = joinjs.map(result.rows, allUserMaps, 'userPublicMap', '')
+    return mapped.length > 0 ? (mapped[0] as UserPublic) : null
+  }
 }
