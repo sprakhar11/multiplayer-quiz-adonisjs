@@ -2,14 +2,14 @@
 |--------------------------------------------------------------------------
 | Routes file
 |--------------------------------------------------------------------------
-|
-| The routes file is used for defining the HTTP routes.
-|
 */
 
 import router from '@adonisjs/core/services/router'
 import db from '@adonisjs/lucid/services/db'
 
+const AuthController = () => import('#controllers/auth/auth_controller')
+
+// Health check
 router.get('/', () => {
   return { app: 'quiz-game', status: 'running' }
 })
@@ -30,3 +30,14 @@ router.get('/ping', async () => {
     }
   }
 })
+
+// Auth routes (public)
+router
+  .group(() => {
+    router.post('register', [AuthController, 'register'])
+    router.post('login', [AuthController, 'login'])
+    router.post('refresh', [AuthController, 'refresh'])
+    router.post('logout', [AuthController, 'logout'])
+    router.post('guest', [AuthController, 'guest'])
+  })
+  .prefix('/api/auth')
