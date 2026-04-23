@@ -10,6 +10,7 @@ import { middleware } from '#start/kernel'
 
 const AuthController = () => import('#controllers/auth/auth_controller')
 const UserController = () => import('#controllers/user/user_controller')
+const QuizController = () => import('#controllers/quiz/quiz_controller')
 
 // Health check
 router.get('/', () => {
@@ -51,4 +52,12 @@ router
     router.put('profile', [UserController, 'update'])
   })
   .prefix('/api/users')
+  .use(middleware.auth())
+
+// Quiz routes (authenticated)
+router
+  .group(() => {
+    router.get('/', [QuizController, 'index'])
+  })
+  .prefix('/api/quizzes')
   .use(middleware.auth())

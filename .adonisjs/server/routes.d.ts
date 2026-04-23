@@ -11,12 +11,15 @@ export type ScannedRoutes = {
     'auth.guest': { paramsTuple?: []; params?: {} }
     'user.show': { paramsTuple?: []; params?: {} }
     'user.update': { paramsTuple?: []; params?: {} }
+    'quiz.index': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'user.show': { paramsTuple?: []; params?: {} }
+    'quiz.index': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'user.show': { paramsTuple?: []; params?: {} }
+    'quiz.index': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }
