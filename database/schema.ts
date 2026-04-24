@@ -45,6 +45,31 @@ export class QuestionSchema extends BaseModel {
   declare text: string
 }
 
+export class QuizSessionSchema extends BaseModel {
+  static $columns = ['createdAt', 'deleteInfo', 'endedAt', 'hostId', 'id', 'inviteCode', 'mode', 'quizId', 'startedAt', 'status'] as const
+  $columns = QuizSessionSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare deleteInfo: any | null
+  @column.dateTime()
+  declare endedAt: DateTime | null
+  @column()
+  declare hostId: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare inviteCode: string | null
+  @column()
+  declare mode: any
+  @column()
+  declare quizId: number
+  @column.dateTime()
+  declare startedAt: DateTime | null
+  @column()
+  declare status: any
+}
+
 export class QuizSchema extends BaseModel {
   static $columns = ['category', 'createdAt', 'deleteInfo', 'description', 'difficulty', 'id', 'timePerQuestion', 'title', 'updatedAt'] as const
   $columns = QuizSchema.$columns
@@ -81,6 +106,46 @@ export class RefreshTokenSchema extends BaseModel {
   declare isRevoked: boolean
   @column()
   declare tokenHash: string
+  @column()
+  declare userId: number
+}
+
+export class SessionAnswerSchema extends BaseModel {
+  static $columns = ['answeredAt', 'id', 'isCorrect', 'questionId', 'scoreAwarded', 'selectedOptionId', 'sessionId', 'userId'] as const
+  $columns = SessionAnswerSchema.$columns
+  @column.dateTime()
+  declare answeredAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isCorrect: boolean
+  @column()
+  declare questionId: number
+  @column()
+  declare scoreAwarded: number
+  @column()
+  declare selectedOptionId: number
+  @column()
+  declare sessionId: number
+  @column()
+  declare userId: number
+}
+
+export class SessionPlayerSchema extends BaseModel {
+  static $columns = ['finishedAt', 'id', 'joinedAt', 'rank', 'score', 'sessionId', 'userId'] as const
+  $columns = SessionPlayerSchema.$columns
+  @column.dateTime()
+  declare finishedAt: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare joinedAt: DateTime
+  @column()
+  declare rank: number | null
+  @column()
+  declare score: number
+  @column()
+  declare sessionId: number
   @column()
   declare userId: number
 }

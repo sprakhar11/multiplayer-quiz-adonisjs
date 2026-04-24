@@ -1,9 +1,10 @@
 import db from '@adonisjs/lucid/services/db'
+// @ts-ignore - join-js has CJS/ESM interop issues
 import joinjsModule from 'join-js'
 import { allQuizMaps } from '#result_maps/quiz_maps'
 import type { Quiz } from '#types/quiz'
 
-const joinjs = joinjsModule.default || joinjsModule
+const joinjs = (joinjsModule as any).default || joinjsModule
 
 export default class QuizDao {
   async findAll(): Promise<Quiz[]> {
