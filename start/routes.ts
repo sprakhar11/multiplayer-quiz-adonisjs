@@ -11,6 +11,7 @@ import { middleware } from '#start/kernel'
 const AuthController = () => import('#controllers/auth/auth_controller')
 const UserController = () => import('#controllers/user/user_controller')
 const QuizController = () => import('#controllers/quiz/quiz_controller')
+const SessionController = () => import('#controllers/game/session_controller')
 
 // Health check
 router.get('/', () => {
@@ -60,4 +61,14 @@ router
     router.get('/', [QuizController, 'index'])
   })
   .prefix('/api/quizzes')
+  .use(middleware.auth())
+
+// Session routes (authenticated)
+router
+  .group(() => {
+    router.post('start', [SessionController, 'start'])
+    router.post(':id/join', [SessionController, 'join'])
+    router.get(':id/results', [SessionController, 'results'])
+  })
+  .prefix('/api/sessions')
   .use(middleware.auth())

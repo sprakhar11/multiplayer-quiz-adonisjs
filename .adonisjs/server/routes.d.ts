@@ -12,14 +12,19 @@ export type ScannedRoutes = {
     'user.show': { paramsTuple?: []; params?: {} }
     'user.update': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
+    'session.start': { paramsTuple?: []; params?: {} }
+    'session.join': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'user.show': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
+    'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'user.show': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
+    'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }
@@ -27,6 +32,8 @@ export type ScannedRoutes = {
     'auth.refresh': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.guest': { paramsTuple?: []; params?: {} }
+    'session.start': { paramsTuple?: []; params?: {} }
+    'session.join': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
     'user.update': { paramsTuple?: []; params?: {} }
