@@ -6,7 +6,10 @@
 
 import router from '@adonisjs/core/services/router'
 import db from '@adonisjs/lucid/services/db'
+import app from '@adonisjs/core/services/app'
 import { middleware } from '#start/kernel'
+import { createReadStream, existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 const AuthController = () => import('#controllers/auth/auth_controller')
 const UserController = () => import('#controllers/user/user_controller')
@@ -52,6 +55,7 @@ router
   .group(() => {
     router.get('profile', [UserController, 'show'])
     router.put('profile', [UserController, 'update'])
+    router.post('profile/picture', [UserController, 'uploadPicture'])
   })
   .prefix('/api/users')
   .use(middleware.auth())
@@ -81,3 +85,12 @@ router
   })
   .prefix('/api/leaderboard')
   .use(middleware.auth())
+
+// serve uploaded files (public, no auth)
+router.get('/uploads/:filename', async ({ params, response }) => {
+  const filePath = join(app.makePath('storage', 'uploads'), params.filename)
+  if (!existsSync(filePath)) {
+    return response.notFound({ message: 'file not found' })
+  }
+  response.stream(createReadStream(filePath))
+})

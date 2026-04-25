@@ -143,6 +143,10 @@ tmp/*
 !tmp/.gitkeep
 public/assets
 
+# Uploaded files
+storage/uploads/*
+!storage/uploads/.gitkeep
+
 # Editors
 .fleet
 .idea

@@ -8,7 +8,7 @@ const joinjs = joinjsModule.default || joinjsModule
 export default class UserDao {
   async findByEmail(email: string): Promise<User | null> {
     const result = await db.rawQuery(
-      'SELECT id, full_name, email, password, role, created_at, updated_at FROM users WHERE email = ?',
+      'SELECT id, full_name, email, password, role, profile_picture, created_at, updated_at FROM users WHERE email = ?',
       [email]
     )
     const mapped = joinjs.map(result.rows, allUserMaps, 'userMap', '')
@@ -17,7 +17,7 @@ export default class UserDao {
 
   async findById(id: number): Promise<User | null> {
     const result = await db.rawQuery(
-      'SELECT id, full_name, email, password, role, created_at, updated_at FROM users WHERE id = ?',
+      'SELECT id, full_name, email, password, role, profile_picture, created_at, updated_at FROM users WHERE id = ?',
       [id]
     )
     const mapped = joinjs.map(result.rows, allUserMaps, 'userMap', '')
@@ -26,7 +26,7 @@ export default class UserDao {
 
   async findPublicById(id: number): Promise<UserPublic | null> {
     const result = await db.rawQuery(
-      'SELECT id, full_name, email, role, created_at FROM users WHERE id = ?',
+      'SELECT id, full_name, email, role, profile_picture, created_at FROM users WHERE id = ?',
       [id]
     )
     const mapped = joinjs.map(result.rows, allUserMaps, 'userPublicMap', '')
@@ -37,7 +37,7 @@ export default class UserDao {
     const result = await db.rawQuery(
       `INSERT INTO users (full_name, email, password)
        VALUES (?, ?, ?)
-       RETURNING id, full_name, email, password, role, created_at, updated_at`,
+       RETURNING id, full_name, email, password, role, profile_picture, created_at, updated_at`,
       [fullName, email, hashedPassword]
     )
     const mapped = joinjs.map(result.rows, allUserMaps, 'userMap', '')
@@ -78,10 +78,26 @@ export default class UserDao {
     const result = await db.rawQuery(
       `UPDATE users SET full_name = ?, updated_at = NOW()
        WHERE id = ?
-       RETURNING id, full_name, email, role, created_at`,
+       RETURNING id, full_name, email, role, profile_picture, created_at`,
       [fullName, id]
     )
     const mapped = joinjs.map(result.rows, allUserMaps, 'userPublicMap', '')
     return mapped.length > 0 ? (mapped[0] as UserPublic) : null
+  }
+
+  // save the filename, returns old filename so we can delete it
+  async updateProfilePicture(id: number, filename: string): Promise<{ old_picture: string | null }> {
+    const current = await db.rawQuery(
+      'SELECT profile_picture FROM users WHERE id = ?',
+      [id]
+    )
+    const oldPicture = current.rows[0]?.profile_picture || null
+
+    await db.rawQuery(
+      'UPDATE users SET profile_picture = ?, updated_at = NOW() WHERE id = ?',
+      [filename, id]
+    )
+
+    return { old_picture: oldPicture }
   }
 }

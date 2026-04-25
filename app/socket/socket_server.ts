@@ -14,7 +14,8 @@ export function getSocketServer(): SocketServer {
 export function initSocketServer() {
   const httpServer = server.getNodeServer()
   if (!httpServer) {
-    throw new Error('http server not available yet')
+    console.log('skipping socket.io init - no http server (probably running a cli command)')
+    return
   }
 
   io = new SocketServer(httpServer, {
