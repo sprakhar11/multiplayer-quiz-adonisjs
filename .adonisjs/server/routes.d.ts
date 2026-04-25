@@ -15,16 +15,19 @@ export type ScannedRoutes = {
     'session.start': { paramsTuple?: []; params?: {} }
     'session.join': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'leaderboard.index': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'user.show': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
     'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'leaderboard.index': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'user.show': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
     'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'leaderboard.index': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }

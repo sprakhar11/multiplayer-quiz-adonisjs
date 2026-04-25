@@ -12,6 +12,7 @@ const AuthController = () => import('#controllers/auth/auth_controller')
 const UserController = () => import('#controllers/user/user_controller')
 const QuizController = () => import('#controllers/quiz/quiz_controller')
 const SessionController = () => import('#controllers/game/session_controller')
+const LeaderboardController = () => import('#controllers/leaderboard/leaderboard_controller')
 
 // Health check
 router.get('/', () => {
@@ -71,4 +72,12 @@ router
     router.get(':id/results', [SessionController, 'results'])
   })
   .prefix('/api/sessions')
+  .use(middleware.auth())
+
+// leaderboard (authenticated)
+router
+  .group(() => {
+    router.get('/', [LeaderboardController, 'index'])
+  })
+  .prefix('/api/leaderboard')
   .use(middleware.auth())

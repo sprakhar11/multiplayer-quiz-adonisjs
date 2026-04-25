@@ -1,6 +1,7 @@
 import { Server as SocketServer } from 'socket.io'
 import server from '@adonisjs/core/services/server'
 import JwtService from '#services/auth/jwt_service'
+import { registerSessionHandlers } from '#socket/session_handler'
 import type { JwtPayload } from '#types/auth'
 
 let io: SocketServer
@@ -46,6 +47,9 @@ export function initSocketServer() {
   io.on('connection', (socket) => {
     const user = socket.data.user as JwtPayload
     console.log(`socket connected: ${user.email} (id: ${user.userId})`)
+
+    // register all game event handlers for this socket
+    registerSessionHandlers(io, socket)
 
     socket.on('disconnect', () => {
       console.log(`socket disconnected: ${user.email} (id: ${user.userId})`)
