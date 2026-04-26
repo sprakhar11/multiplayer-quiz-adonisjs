@@ -1,0 +1,56 @@
+services:
+  # PostgreSQL database
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: quiz_game_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # AdonisJS backend + Socket.IO
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    ports:
+      - "3333:3333"
+    environment:
+      TZ: UTC
+      PORT: 3333
+      HOST: 0.0.0.0
+      NODE_ENV: development
+      LOG_LEVEL: info
+      APP_KEY: random-123
+      APP_URL: http://localhost:3333
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: quiz_game_dev
+      JWT_SECRET: secret-ket
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # React frontend (Vite dev server)
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3333
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
