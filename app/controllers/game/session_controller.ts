@@ -26,12 +26,11 @@ export default class SessionController {
     }
   }
 
-  async join({ request, response, user, params }: HttpContext) {
+  async join({ request, response, user }: HttpContext) {
     const data = await request.validateUsing(joinSessionValidator)
-    const sessionId = Number.parseInt(params.id)
 
     try {
-      const result = await this.sessionService.joinSession(user!.userId, sessionId, data.invite_code)
+      const result = await this.sessionService.joinSession(user!.userId, data.invite_code)
       return response.ok(result)
     } catch (error) {
       if (error instanceof Error) {

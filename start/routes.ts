@@ -72,7 +72,7 @@ router
 router
   .group(() => {
     router.post('start', [SessionController, 'start'])
-    router.post(':id/join', [SessionController, 'join'])
+    router.post('join', [SessionController, 'join'])
     router.get(':id/results', [SessionController, 'results'])
   })
   .prefix('/api/sessions')

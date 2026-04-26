@@ -42,12 +42,15 @@ export function registerSessionHandlers(io: SocketServer, socket: Socket) {
         }
       }
 
-      // let everyone in the room know
+      // send full player list to everyone in the room
       const players = await sessionDao.getSessionPlayers(data.session_id)
+      const playerList = players.map((p) => ({ user_id: p.user_id, full_name: p.full_name }))
+
       io.to(roomName).emit('player:joined', {
         user_id: user.userId,
         full_name: players.find((p) => p.user_id === user.userId)?.full_name,
         player_count: players.length,
+        players: playerList,
       })
     } catch (err) {
       console.error('session:join error', err)

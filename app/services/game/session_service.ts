@@ -46,9 +46,9 @@ export default class SessionService {
     }
   }
 
-  async joinSession(userId: number, sessionId: number, inviteCode: string) {
-    const session = await this.sessionDao.findSessionById(sessionId)
-    if (!session || session.invite_code !== inviteCode) {
+  async joinSession(userId: number, inviteCode: string) {
+    const session = await this.sessionDao.findSessionByInviteCode(inviteCode)
+    if (!session) {
       throw new Error('SESSION_NOT_FOUND')
     }
 
@@ -56,14 +56,14 @@ export default class SessionService {
       throw new Error('SESSION_ALREADY_STARTED')
     }
 
-    const alreadyJoined = await this.sessionDao.isPlayerInSession(sessionId, userId)
+    const alreadyJoined = await this.sessionDao.isPlayerInSession(session.id, userId)
     if (alreadyJoined) {
       throw new Error('ALREADY_IN_SESSION')
     }
 
-    await this.sessionDao.addPlayer(sessionId, userId)
+    await this.sessionDao.addPlayer(session.id, userId)
 
-    const players = await this.sessionDao.getSessionPlayers(sessionId)
+    const players = await this.sessionDao.getSessionPlayers(session.id)
 
     return {
       session_id: session.id,

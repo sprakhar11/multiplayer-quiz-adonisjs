@@ -14,7 +14,7 @@ export type ScannedRoutes = {
     'user.upload_picture': { paramsTuple?: []; params?: {} }
     'quiz.index': { paramsTuple?: []; params?: {} }
     'session.start': { paramsTuple?: []; params?: {} }
-    'session.join': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'session.join': { paramsTuple?: []; params?: {} }
     'session.results': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'leaderboard.index': { paramsTuple?: []; params?: {} }
   }
@@ -38,7 +38,7 @@ export type ScannedRoutes = {
     'auth.guest': { paramsTuple?: []; params?: {} }
     'user.upload_picture': { paramsTuple?: []; params?: {} }
     'session.start': { paramsTuple?: []; params?: {} }
-    'session.join': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'session.join': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'user.update': { paramsTuple?: []; params?: {} }
