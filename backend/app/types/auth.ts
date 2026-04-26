@@ -1,7 +1,7 @@
 export interface JwtPayload {
   userId: number
   email: string
-  role: 'user' | 'admin' | 'guest'
+  role: 'user' | 'admin'
 }
 
 export interface TokenPair {

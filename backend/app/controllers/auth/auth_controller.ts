@@ -77,12 +77,4 @@ export default class AuthController {
       message: 'Logged out successfully',
     })
   }
-
-  async guest({ response }: HttpContext) {
-    const result = this.authService.generateGuestToken()
-    return response.ok({
-      message: 'Guest token generated',
-      data: result,
-    })
-  }
 }

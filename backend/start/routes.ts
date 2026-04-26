@@ -46,7 +46,6 @@ router
     router.post('login', [AuthController, 'login'])
     router.post('refresh', [AuthController, 'refresh'])
     router.post('logout', [AuthController, 'logout'])
-    router.post('guest', [AuthController, 'guest'])
   })
   .prefix('/api/auth')
 

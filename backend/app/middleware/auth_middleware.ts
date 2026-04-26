@@ -30,14 +30,6 @@ export default class AuthMiddleware {
 
     try {
       const payload = this.jwtService.verifyToken(token)
-
-      if (payload.role === 'guest') {
-        return ctx.response.forbidden({
-          message: 'Guest users cannot access this resource',
-          code: 'GUEST_NOT_ALLOWED',
-        })
-      }
-
       ctx.user = payload
       return next()
     } catch {

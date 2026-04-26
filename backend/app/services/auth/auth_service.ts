@@ -93,15 +93,6 @@ export default class AuthService {
     await this.userDao.revokeRefreshToken(tokenHash)
   }
 
-  generateGuestToken(): { accessToken: string } {
-    const accessToken = this.jwtService.generateAccessToken({
-      userId: 0,
-      email: 'guest',
-      role: 'guest',
-    })
-    return { accessToken }
-  }
-
   private async generateAndStoreTokens(userId: number, email: string, role: 'user' | 'admin'): Promise<TokenPair> {
     const payload = { userId, email, role }
     const accessToken = this.jwtService.generateAccessToken(payload)
